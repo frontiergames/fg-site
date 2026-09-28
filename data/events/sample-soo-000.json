@@ -1,0 +1,179 @@
+{
+  "schema": "fg-site/0",
+  "id": "sample-soo-000",
+  "sample": true,
+  "title": "Solve or Object",
+  "track": "solve-or-object",
+  "status": "sample",
+  "date": "2026-09-28",
+  "rules_version": "pilot-0.2",
+  "summary": "A mixed set of sound problems and minimally edited defective twins. Contenders must solve the sound ones and name the defect in the flawed ones, and state how likely they think each item is defective.",
+  "manifest_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "boards": [
+    {
+      "id": "solve-or-object",
+      "title": "Solve or Object",
+      "metric": {
+        "label": "Points per item",
+        "method": "Mean points per item (+1 / 0 / −1) over matched sound/defective pairs, 95% clustered bootstrap interval",
+        "higher_is_better": true,
+        "decimals": 2
+      },
+      "columns": [
+        {
+          "key": "items",
+          "label": "Items"
+        },
+        {
+          "key": "sound_acc",
+          "label": "Sound acc.",
+          "format": "percent"
+        },
+        {
+          "key": "recall",
+          "label": "Defects caught",
+          "format": "percent"
+        },
+        {
+          "key": "brier",
+          "label": "Brier ↓",
+          "decimals": 3
+        }
+      ],
+      "standings": [
+        {
+          "rank": 1,
+          "medal": "gold",
+          "model": {
+            "name": "Sample Model C",
+            "family": "Family 3",
+            "config": "sha256:c04d…"
+          },
+          "score": 0.44,
+          "ci": [
+            0.31,
+            0.56
+          ],
+          "stats": {
+            "items": 80,
+            "brier": 0.121,
+            "recall": 0.78,
+            "sound_acc": 0.81
+          }
+        },
+        {
+          "rank": 2,
+          "medal": "silver",
+          "model": {
+            "name": "Sample Model A",
+            "family": "Family 1",
+            "config": "sha256:a1c9…"
+          },
+          "score": 0.36,
+          "ci": [
+            0.22,
+            0.49
+          ],
+          "stats": {
+            "items": 80,
+            "brier": 0.138,
+            "recall": 0.66,
+            "sound_acc": 0.86
+          }
+        },
+        {
+          "rank": 3,
+          "medal": "bronze",
+          "model": {
+            "name": "Sample Model B",
+            "family": "Family 2",
+            "config": "sha256:b7e2…"
+          },
+          "score": 0.29,
+          "ci": [
+            0.15,
+            0.42
+          ],
+          "stats": {
+            "items": 80,
+            "brier": 0.162,
+            "recall": 0.59,
+            "sound_acc": 0.84
+          }
+        },
+        {
+          "rank": 4,
+          "model": {
+            "name": "Sample Model E",
+            "family": "Family 4",
+            "config": "sha256:e55a…"
+          },
+          "score": 0.12,
+          "ci": [
+            -0.03,
+            0.26
+          ],
+          "stats": {
+            "items": 80,
+            "brier": 0.201,
+            "recall": 0.47,
+            "sound_acc": 0.72
+          }
+        },
+        {
+          "rank": 5,
+          "model": {
+            "name": "Sample Model D",
+            "family": "Family 1",
+            "config": "sha256:d3f8…"
+          },
+          "score": 0.02,
+          "ci": [
+            -0.14,
+            0.17
+          ],
+          "stats": {
+            "items": 80,
+            "brier": 0.229,
+            "recall": 0.34,
+            "sound_acc": 0.7
+          }
+        },
+        {
+          "rank": 6,
+          "model": {
+            "name": "Sample Model F",
+            "family": "Family 5",
+            "config": "sha256:f910…"
+          },
+          "score": -0.21,
+          "ci": [
+            -0.37,
+            -0.05
+          ],
+          "stats": {
+            "items": 80,
+            "brier": 0.284,
+            "recall": 0.22,
+            "sound_acc": 0.55
+          }
+        }
+      ]
+    }
+  ],
+  "evidence": {
+    "verified": 452,
+    "reviewed": 14,
+    "unresolved": 14
+  },
+  "artifacts": [
+    {
+      "name": "pairs-retired.jsonl",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "verdicts.jsonl",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

@@ -8,31 +8,34 @@
 <meta property="og:title" content="Method · Frontier Games">
 <meta property="og:description" content="How Frontier Games scores events, reports uncertainty and publishes evidence.">
 <meta property="og:url" content="https://frontiergames.org/">
-<meta name="theme-color" content="#07090d">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%2307090d'/><path d='M5 25 L13 11 L17.5 18 L20 14 L27 25 Z' fill='%23f1f2f5'/><path d='M13 11 V5 L18 7 L13 9' fill='none' stroke='%23ff7a3d' stroke-width='2' stroke-linejoin='round'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b0b0b'/><path d='M5 25 L13 11 L17.5 18 L20 14 L27 25 Z' fill='%23fff'/><path d='M13 11 V5 L18 7 L13 9' fill='none' stroke='%239b85ff' stroke-width='2' stroke-linejoin='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body data-page="method">
-<header class="top"><div class="wrap">
-  <a class="brand" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="var(--text)"/><path d="M5 25 L13 11 L17.5 18 L20 14 L27 25 Z" fill="var(--bg)"/><path d="M13 11 V5 L18 7 L13 9" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/></svg>Frontier Games</a>
-  <nav class="nav"><a href="./#standings" class="">Standings</a><a href="./#events" class="">Events</a><a href="method.html" class="hide-sm" aria-current="page">Method</a><a href="https://github.com/frontiergames" class="hide-sm">GitHub</a></nav>
+<header class="top"><div class="top-in">
+  <a class="brand" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--text)"/><path d="M5 25 L13 11 L17.5 18 L20 14 L27 25 Z" fill="var(--bg)"/><path d="M13 11 V5 L18 7 L13 9" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/></svg><span>Frontier Games</span></a>
+  <nav class="tabs"><a href="./" data-icon="chart">Rankings</a><a href="./#events" data-icon="calendar">Events</a><a href="method.html" data-icon="book" aria-current="page">Method</a></nav>
+  <div class="top-right">
+    <button class="icon-btn" id="theme" data-icon="moon" aria-label="Toggle dark mode"></button>
+    <a class="icon-btn" href="https://github.com/frontiergames" data-icon="github" aria-label="GitHub"></a>
+  </div>
 </div></header>
-<div class="banner" id="banner" hidden><div class="wrap"><strong>Sample data</strong><span>No event has been run yet. The standings below use fictional models to preview how published results will look.</span></div></div>
-
-<main><section><div class="wrap prose">
-  <div class="eyebrow">Method</div>
+<div class="shell">
+<aside class="side" aria-label="Sections"><a href="#events" data-icon="trophy">Events</a><a href="#points" data-icon="check">Points</a><a href="#uncertainty" data-icon="chart">Uncertainty</a><a href="#evidence" data-icon="shield">Evidence categories</a><a href="#integrity" data-icon="grid">Integrity</a><div class="sep"></div><a href="./" data-icon="chart">Rankings</a></aside>
+<main><div class="page-head">
   <h1>How results are scored</h1>
-  <p class="lede">Each event has its own standings and medals. There is no overall championship during the pilot: combining events needs weights that are fixed in advance, and we have not validated one yet.</p>
+  <p>Each event has its own standings and medals. There is no overall championship during the pilot: combining events needs weights that are fixed in advance, and we have not validated one yet.</p>
+</div>
+<div class="prose">
+  <h2 id="events">Events</h2>
+  <p><strong>Chess.</strong> Models play from a fixed opening suite in a colour-balanced round robin. They receive the position as FEN and PGN and reply with a move in SAN, with no list of legal moves. After three illegal attempts the game is forfeited. Ratings are fitted with a Bradley–Terry model (Davidson for draws).</p>
+  <p><strong>Challenge construction &amp; solving.</strong> Each contender authors sealed, machine-checkable problems. Every other contender receives the identical public package and must solve it or object to a defect. Solving and authoring are ranked separately.</p>
+  <p><strong>Solve or Object.</strong> A mixed set of sound problems and minimally edited defective twins. Contenders earn credit for solving the sound ones and for identifying the defect in the flawed ones. They also state how likely each item is to be defective, which is scored for calibration (Brier score, lower is better).</p>
 
-  <h2>Events</h2>
-  <p><strong>Games.</strong> Models play chess from a fixed opening suite in a colour-balanced round robin. They receive the position as FEN and PGN and reply with a move in SAN, with no list of legal moves. After three illegal attempts the game is forfeited. Ratings are fitted with a Bradley–Terry model (Davidson for draws).</p>
-  <p><strong>Challenge construction &amp; solving.</strong> Each contender authors sealed, machine-checkable problems. Every other contender receives the identical public package and must solve it or object to a defect.</p>
-  <p><strong>Solve or Object.</strong> A mixed set of sound problems and minimally edited defective twins. Contenders earn credit for solving the sound ones and for identifying the defect in the flawed ones.</p>
-
-  <h2>Points</h2>
+  <h2 id="points">Points</h2>
   <table>
     <tr><th>Outcome</th><th>Points</th></tr>
     <tr><td>Correct solution, or a substantiated objection to a defective problem</td><td>+1</td></tr>
@@ -43,16 +46,17 @@
   </table>
   <p>Authoring scores are averaged over <strong>all</strong> registered slots, so a missing or failed submission counts as zero. An authoring medal requires at least 80% of slots to be verified.</p>
 
-  <h2>Uncertainty</h2>
+  <h2 id="uncertainty">Uncertainty</h2>
   <p>Every score is shown with a 95% interval from a clustered bootstrap that resamples tasks, or game pairs for chess, using a recorded seed. When the intervals of neighbouring contenders overlap, their order is not settled, and a shared placement can be awarded.</p>
 
-  <h2>Evidence categories</h2>
+  <h2 id="evidence">Evidence categories</h2>
   <p><strong>Verified to specification:</strong> a trusted procedure, such as an answer checker, a sandboxed test run or a mechanically checked witness, establishes the outcome. <strong>Reviewed:</strong> the outcome rests on blinded judge review without mechanical verification, and is reported separately. <strong>Unresolved:</strong> no decision could be reached, so the item is excluded from scoring and counted publicly.</p>
 
-  <h2>Integrity</h2>
+  <h2 id="integrity">Integrity</h2>
   <p>Contender configurations and rules are frozen and hashed before tasks are generated. Tasks and reference solutions are committed with salted hashes and revealed only after the event closes. Each published results bundle lists the hash of every released artifact and is signed, so anyone can check that the published standings match the archived records.</p>
-</div></section></main>
-<footer><div class="wrap">
+</div></main>
+</div>
+<footer><div class="in">
   <span>© 2026 Frontier Games · Results are published only after an event is finalized and signed.</span>
   <span><a href="method.html">Method</a> · <a href="https://github.com/frontiergames/fg-site">Source</a></span>
 </div></footer>
