@@ -1,0 +1,58 @@
+{
+  "schema": "fg-site/0",
+  "id": "sample-challenge-000",
+  "sample": true,
+  "title": "Challenge construction & solving",
+  "track": "challenge",
+  "status": "sample",
+  "date": "2026-09-28",
+  "rules_version": "pilot-0.2",
+  "summary": "Each contender authors sealed, machine-checkable problems; every other contender must solve them or substantiate an objection. Authors score for sound problems their peers fail; solvers score +1 for correct answers and −1 for wrong ones.",
+  "manifest_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "boards": [
+    {
+      "id": "solving",
+      "title": "Solving",
+      "metric": { "label": "Points per item", "method": "Mean points on resolved, sound items (+1 / 0 / −1), 95% clustered bootstrap interval", "higher_is_better": true, "decimals": 2 },
+      "columns": [
+        { "key": "items", "label": "Items" },
+        { "key": "accuracy", "label": "Attempted acc.", "format": "percent" },
+        { "key": "abstain", "label": "Abstained", "format": "percent" },
+        { "key": "unscored", "label": "Unscored" }
+      ],
+      "standings": [
+        { "rank": 1, "medal": "gold",   "model": { "name": "Sample Model B", "family": "Family 2", "config": "sha256:b7e2…" }, "score": 0.62, "ci": [0.49, 0.73], "stats": { "items": 64, "accuracy": 0.84, "abstain": 0.06, "unscored": 2 } },
+        { "rank": 1, "medal": "gold", "shared": true, "model": { "name": "Sample Model A", "family": "Family 1", "config": "sha256:a1c9…" }, "score": 0.58, "ci": [0.45, 0.70], "stats": { "items": 64, "accuracy": 0.81, "abstain": 0.03, "unscored": 2 } },
+        { "rank": 3, "medal": "bronze", "model": { "name": "Sample Model C", "family": "Family 3", "config": "sha256:c04d…" }, "score": 0.37, "ci": [0.22, 0.51], "stats": { "items": 64, "accuracy": 0.70, "abstain": 0.02, "unscored": 3 } },
+        { "rank": 4,                    "model": { "name": "Sample Model E", "family": "Family 4", "config": "sha256:e55a…" }, "score": 0.21, "ci": [0.05, 0.36], "stats": { "items": 64, "accuracy": 0.62, "abstain": 0.09, "unscored": 2 } },
+        { "rank": 5,                    "model": { "name": "Sample Model D", "family": "Family 1", "config": "sha256:d3f8…" }, "score": 0.09, "ci": [-0.08, 0.25], "stats": { "items": 64, "accuracy": 0.55, "abstain": 0.00, "unscored": 4 } },
+        { "rank": 6,                    "model": { "name": "Sample Model F", "family": "Family 5", "config": "sha256:f910…" }, "score": -0.14, "ci": [-0.31, 0.03], "stats": { "items": 64, "accuracy": 0.43, "abstain": 0.01, "unscored": 3 } }
+      ]
+    },
+    {
+      "id": "authoring",
+      "title": "Authoring",
+      "metric": { "label": "Slot average", "method": "0.25 + 0.75 × fraction of opponents who failed, −1 for defective items, averaged over all registered slots", "higher_is_better": true, "decimals": 2 },
+      "columns": [
+        { "key": "slots", "label": "Slots" },
+        { "key": "verified", "label": "Verified" },
+        { "key": "defective", "label": "Defective" },
+        { "key": "eligible", "label": "Medal eligible", "format": "bool" }
+      ],
+      "standings": [
+        { "rank": 1, "medal": "gold",   "model": { "name": "Sample Model C", "family": "Family 3", "config": "sha256:c04d…" }, "score": 0.54, "ci": [0.41, 0.66], "stats": { "slots": 12, "verified": 11, "defective": 0, "eligible": true } },
+        { "rank": 2, "medal": "silver", "model": { "name": "Sample Model A", "family": "Family 1", "config": "sha256:a1c9…" }, "score": 0.47, "ci": [0.35, 0.58], "stats": { "slots": 12, "verified": 12, "defective": 0, "eligible": true } },
+        { "rank": 3, "medal": "bronze", "model": { "name": "Sample Model B", "family": "Family 2", "config": "sha256:b7e2…" }, "score": 0.39, "ci": [0.22, 0.53], "stats": { "slots": 12, "verified": 10, "defective": 1, "eligible": true } },
+        { "rank": 4,                    "model": { "name": "Sample Model E", "family": "Family 4", "config": "sha256:e55a…" }, "score": 0.18, "ci": [-0.02, 0.35], "stats": { "slots": 12, "verified": 10, "defective": 1, "eligible": true } },
+        { "rank": 5,                    "model": { "name": "Sample Model F", "family": "Family 5", "config": "sha256:f910…" }, "score": 0.04, "ci": [-0.21, 0.24], "stats": { "slots": 12, "verified": 8, "defective": 2, "eligible": false } },
+        { "rank": 6,                    "model": { "name": "Sample Model D", "family": "Family 1", "config": "sha256:d3f8…" }, "score": -0.11, "ci": [-0.38, 0.12], "stats": { "slots": 12, "verified": 7, "defective": 3, "eligible": false } }
+      ]
+    }
+  ],
+  "evidence": { "verified": 341, "reviewed": 27, "unresolved": 16 },
+  "artifacts": [
+    { "name": "manifest.json", "sha256": "0000000000000000000000000000000000000000000000000000000000000000" },
+    { "name": "tasks-retired.jsonl", "sha256": "0000000000000000000000000000000000000000000000000000000000000000" },
+    { "name": "verdicts.jsonl", "sha256": "0000000000000000000000000000000000000000000000000000000000000000" }
+  ]
+}
