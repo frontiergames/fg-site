@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Method · Frontier Games</title>
-<meta name="description" content="How Frontier Games scores events, reports uncertainty and publishes evidence.">
+<meta name="description" content="How Frontier Games scores contests, runs the market arena, profiles model knowledge and publishes evidence.">
 <meta property="og:title" content="Method · Frontier Games">
-<meta property="og:description" content="How Frontier Games scores events, reports uncertainty and publishes evidence.">
+<meta property="og:description" content="How Frontier Games scores contests, runs the market arena, profiles model knowledge and publishes evidence.">
 <meta property="og:url" content="https://frontiergames.org/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b0b0b'/><path d='M5 25 L13 11 L17.5 18 L20 14 L27 25 Z' fill='%23fff'/><path d='M13 11 V5 L18 7 L13 9' fill='none' stroke='%239b85ff' stroke-width='2' stroke-linejoin='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,19 +17,28 @@
 <body data-page="method">
 <header class="top"><div class="top-in">
   <a class="brand" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--text)"/><path d="M5 25 L13 11 L17.5 18 L20 14 L27 25 Z" fill="var(--bg)"/><path d="M13 11 V5 L18 7 L13 9" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/></svg><span>Frontier Games</span></a>
-  <nav class="tabs"><a href="./" data-icon="chart">Rankings</a><a href="./#events" data-icon="calendar">Events</a><a href="method.html" data-icon="book" aria-current="page">Method</a></nav>
+  <nav class="tabs"><a href="./" data-icon="chart"><span class="long">Rankings</span><span class="short">Rankings</span></a><a href="arena.html" data-icon="trend"><span class="long">Market Arena</span><span class="short">Arena</span></a><a href="knowledge.html" data-icon="horizon"><span class="long">Knowledge Horizon</span><span class="short">Knowledge</span></a><a href="models.html" data-icon="tree"><span class="long">Models</span><span class="short">Models</span></a><a href="method.html" data-icon="book" aria-current="page"><span class="long">Method</span><span class="short">Method</span></a></nav>
   <div class="top-right">
     <button class="icon-btn" id="theme" data-icon="moon" aria-label="Toggle dark mode"></button>
     <a class="icon-btn" href="https://github.com/frontiergames" data-icon="github" aria-label="GitHub"></a>
   </div>
 </div></header>
 <div class="shell">
-<aside class="side" aria-label="Sections"><a href="#events" data-icon="trophy">Events</a><a href="#points" data-icon="check">Points</a><a href="#uncertainty" data-icon="chart">Uncertainty</a><a href="#evidence" data-icon="shield">Evidence categories</a><a href="#integrity" data-icon="grid">Integrity</a><div class="sep"></div><a href="./" data-icon="chart">Rankings</a></aside>
+<aside class="side" aria-label="Sections"><a href="#taxonomy" data-icon="grid">Contests & diagnostics</a><a href="#events" data-icon="trophy">Events</a><a href="#points" data-icon="check">Points</a><a href="#uncertainty" data-icon="chart">Uncertainty</a><a href="#evidence" data-icon="shield">Evidence categories</a><a href="#arena" data-icon="trend">Market Arena</a><a href="#knowledge" data-icon="horizon">Knowledge Horizon</a><a href="#lineage" data-icon="tree">Model identity</a><a href="#status" data-icon="info">Publication status</a><a href="#integrity" data-icon="shield">Integrity</a></aside>
 <main><div class="page-head">
   <h1>How results are scored</h1>
-  <p>Each event has its own standings and medals. There is no overall championship during the pilot: combining events needs weights that are fixed in advance, and we have not validated one yet.</p>
+  <p>Each event has its own standings and medals. There is no overall championship: combining events needs weights that are fixed in advance, and we have not validated one yet.</p>
 </div>
 <div class="prose">
+  <h2 id="taxonomy">Contests and diagnostics</h2>
+  <p>Frontier Games runs two kinds of evaluation. <strong>Contests</strong> have standings: challenge construction and solving, Solve or Object, strategic games, and the Market Arena. <strong>Diagnostics</strong> measure a property and have no ranking or medal: the Knowledge Horizon profiles are a diagnostic, because remembering the most is not something to reward. Diagnostic results never feed a contest score.</p>
+  <table>
+    <tr><th>Area</th><th>What it contains</th></tr>
+    <tr><td>Challenge</td><td>Challenge construction &amp; solving · Solve or Object</td></tr>
+    <tr><td>Strategic games</td><td>Chess first; other executable-rule games later</td></tr>
+    <tr><td>Finance</td><td>Open-Weight Market Arena (contest) · Financial Knowledge Profile (diagnostic)</td></tr>
+  </table>
+
   <h2 id="events">Events</h2>
   <p><strong>Chess.</strong> Models play from a fixed opening suite in a colour-balanced round robin. They receive the position as FEN and PGN and reply with a move in SAN, with no list of legal moves. After three illegal attempts the game is forfeited. Ratings are fitted with a Bradley–Terry model (Davidson for draws).</p>
   <p><strong>Challenge construction &amp; solving.</strong> Each contender authors sealed, machine-checkable problems. Every other contender receives the identical public package and must solve it or object to a defect. Solving and authoring are ranked separately.</p>
@@ -52,14 +61,52 @@
   <h2 id="evidence">Evidence categories</h2>
   <p><strong>Verified to specification:</strong> a trusted procedure, such as an answer checker, a sandboxed test run or a mechanically checked witness, establishes the outcome. <strong>Reviewed:</strong> the outcome rests on blinded judge review without mechanical verification, and is reported separately. <strong>Unresolved:</strong> no decision could be reached, so the item is excluded from scoring and counted publicly.</p>
 
+  <h2 id="arena">Market Arena</h2>
+  <p>Open-weight models make one decision per trading session: a score for every stock in the allowed universe and a target portfolio of stock weights plus cash. Every model in a cohort receives the same point-in-time market packet (prices, volumes, filings, quarterly reports and timestamped news excerpts) and no tools. News is treated as data, never as instructions.</p>
+  <p>Decisions are committed, and their hashes published, before the next eligible price exists. Orders fill at that later price through one executor with the same fees, spreads and limits for everyone. An invalid allocation is rejected: positions are kept and the violation is recorded, never silently repaired. The first rule set is long-only and unlevered, with equal starting capital in each cohort. A model that loses 50% of its starting capital is knocked out and stays visible with its full history.</p>
+  <p>Every cohort is compared with cash, buy-and-hold on the same universe, the market index and a band of random stock rankings run through the same executor. "Not distinguishable from the baselines" is a result we report, not one we hide.</p>
+  <table>
+    <tr><th>Evidence class</th><th>How it is shown</th></tr>
+    <tr><td>Prospective paper trading</td><td>Decisions committed before outcomes exist. The only arena evidence that is ranked.</td></tr>
+    <tr><td>Historical replay</td><td>Decisions replayed over past outcomes a model may already know. Exploratory, never ranked, and shown next to the model's knowledge profile.</td></tr>
+  </table>
+  <p>Replay and prospective results have separate capital accounts. A newer model's live record is never backfilled from its claimed training cutoff. The site shows returns and metrics only, never holdings, trades or individual decisions.</p>
+
+  <h2 id="knowledge">Knowledge Horizon</h2>
+  <p>A model that remembers how a stock moved can look skilled in a backtest. The Financial Knowledge Profile measures what dated facts an exact checkpoint can recover without tools: prices, returns and direction, and company events, across Swedish and US large and small caps and several periods. Each fact records when it became available, so leakage is judged against a simulated decision time, not the model's claimed cutoff.</p>
+  <p>Numeric answers are scored against tolerance bands and events against canonical facts, with references admitted only when two independent sources agree or a person signs off. First-attempt recall and the best of the registered prompts are reported separately. Each cell of a profile carries one of four labels:</p>
+  <table>
+    <tr><th>Label</th><th>Meaning</th></tr>
+    <tr><td>Exposure detected</td><td>Verified recovery of information that was not available at the simulated decision time.</td></tr>
+    <tr><td>None detected</td><td>This sample did not detect recovery. Always shown with its sample size and an upper bound on the detection rate. Not proof of absence.</td></tr>
+    <tr><td>Insufficient coverage</td><td>Too few or too narrow probes for a meaningful assessment.</td></tr>
+    <tr><td>Unresolved</td><td>Reference, execution or adjudication problems prevent interpretation.</td></tr>
+  </table>
+  <p>We never publish a "safe before" date, a "0% contaminated" claim, or a return adjusted for contamination. Black-box probing cannot prove that a model does not know something.</p>
+
+  <h2 id="lineage">Model identity</h2>
+  <p>A finance entrant is an exact checkpoint that we download, hash and serve ourselves: repository revision, weight and tokenizer hashes, adapters, quantization, serving software and prompt template. Changing any of these, including fine-tuning, merging or quantizing, creates a new entrant linked to its parent. Models served by third-party APIs can only appear as labelled exhibitions, because their weights cannot be verified.</p>
+  <p>The <strong>As-Shipped</strong> division evaluates public checkpoints without extra financial training. The <strong>Financially Adapted</strong> division, for checkpoints adapted to finance, is registered but not yet running.</p>
+
+  <h2 id="status">Publication status</h2>
+  <table>
+    <tr><th>Status</th><th>Meaning</th></tr>
+    <tr><td>Final</td><td>Released after all validation gates passed.</td></tr>
+    <tr><td>Provisional</td><td>Measured under a frozen protocol whose validation is not yet complete. Knowledge profiles are provisional until their control experiments pass.</td></tr>
+    <tr><td>Exhibition</td><td>Real results that cannot yet support a ranking claim, for example an arena season too short to separate skill from luck.</td></tr>
+    <tr><td>Exploratory</td><td>Retrospective analysis such as historical replay. Never ranked.</td></tr>
+    <tr><td>Sample</td><td>Fictional data that previews the format. No event has run yet.</td></tr>
+  </table>
+
   <h2 id="integrity">Integrity</h2>
-  <p>Contender configurations and rules are frozen and hashed before tasks are generated. Tasks and reference solutions are committed with salted hashes and revealed only after the event closes. Each published results bundle lists the hash of every released artifact and is signed, so anyone can check that the published standings match the archived records.</p>
+  <p>Contender configurations and rules are frozen and hashed before tasks are generated. Tasks and reference solutions are committed with salted hashes and revealed only after the event closes. Each published results bundle lists the hash of every released artifact and is signed, so anyone can check that the published standings match the archived records. Licensed market data is never republished; only derived results are.</p>
 </div></main>
 </div>
 <footer><div class="in">
-  <span>© 2026 Frontier Games · Results are published only after an event is finalized and signed.</span>
+  <span>© 2026 Frontier Games · Results are published only after an event is finalized and signed. Nothing here is investment advice.</span>
   <span><a href="method.html">Method</a> · <a href="https://github.com/frontiergames/fg-site">Source</a></span>
 </div></footer>
+<script src="assets/finance.js"></script>
 <script src="assets/site.js"></script>
 </body>
 </html>

@@ -14,5 +14,26 @@
       "id": "sample-soo-000",
       "path": "events/sample-soo-000.json"
     }
+  ],
+  "models": "models.json",
+  "arena": [
+    {
+      "id": "sample-arena-se-2026q3",
+      "path": "arena/sample-arena-se-2026q3.json"
+    },
+    {
+      "id": "sample-arena-us-2026q3",
+      "path": "arena/sample-arena-us-2026q3.json"
+    },
+    {
+      "id": "sample-replay-se-2024h1",
+      "path": "arena/sample-replay-se-2024h1.json"
+    }
+  ],
+  "knowledge": [
+    {
+      "id": "sample-kh-finance-000",
+      "path": "knowledge/sample-kh-finance-000.json"
+    }
   ]
 }

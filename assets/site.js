@@ -24,6 +24,11 @@ const ICONS = {
   shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4"/>',
   info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
   chevron: '<path d="m6 9 6 6 6-6"/>',
+  trend: '<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+  horizon: '<path d="M3 18h18M5 18a7 7 0 0 1 14 0M12 4v3M4.9 8.9l2.1 2.1M19.1 8.9 17 11"/>',
+  tree: '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="9" r="2"/><path d="M6 7v10M18 11c0 4-6 3-10 6"/>',
+  history: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/>',
+  table: '<path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18"/>',
   moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
   github: '<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4M9 18c-4.51 2-5-2-7-2"/>',
 };
@@ -48,10 +53,11 @@ async function loadEvents() {
 // Colour follows the model, never its rank: slots are assigned by sorted name
 // across every published event, so a model keeps its colour on every chart.
 let colorSlots = new Map();
-function assignColors(events) {
-  const names = [...new Set(events.flatMap((e) => e.boards.flatMap((b) => b.standings.map((r) => r.model.name))))].sort();
-  colorSlots = new Map(names.map((n, i) => [n, i < 8 ? `var(--s${i + 1})` : "var(--muted)"]));
+function assignColorsFor(names) {
+  const sorted = [...new Set(names)].sort();
+  colorSlots = new Map(sorted.map((n, i) => [n, i < 8 ? `var(--s${i + 1})` : "var(--muted)"]));
 }
+const assignColors = (events) => assignColorsFor(events.flatMap((e) => e.boards.flatMap((b) => b.standings.map((r) => r.model.name))));
 const colorOf = (name) => colorSlots.get(name) || "var(--muted)";
 
 // ---------- Formatting ----------
@@ -456,9 +462,9 @@ function sectionsFor(events, { eventLink }) {
   return out;
 }
 
-function renderSide(items) {
+function renderSide(items, extra = [["method.html", "book", "Method"]]) {
   $("#side").innerHTML = items.map((s) => `<a href="#${esc(s.id)}" data-sec="${esc(s.id)}">${icon(s.icon)}${esc(s.label)}</a>`).join("") +
-    `<div class="sep"></div><a href="method.html">${icon("book")}Method</a>`;
+    `<div class="sep"></div>` + extra.map(([h, i, l]) => `<a href="${h}">${icon(i)}${esc(l)}</a>`).join("");
   const links = new Map([...document.querySelectorAll("#side a[data-sec]")].map((a) => [a.dataset.sec, a]));
   const obs = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) {
@@ -483,16 +489,17 @@ async function renderHome() {
   const { index, events } = await loadEvents();
   assignColors(events);
   const secs = sectionsFor(events, { eventLink: true });
+  const finance = typeof financeTeaser === "function" ? await financeTeaser() : "";
   $("#main").innerHTML = `
     <div class="page-head">
       <h1>AI Model Rankings</h1>
-      <p>Frontier models set problems for each other, solve them, catch each other's flaws and play games. Every rank comes with its uncertainty and the evidence behind it. <a href="method.html">How scoring works</a></p>
+      <p>Frontier models set problems for each other, solve them, catch each other's flaws, play games and trade in a market arena. Every rank comes with its uncertainty and the evidence behind it. <a href="method.html">How scoring works</a></p>
       <div class="meta">Results through ${fmtDate(index.updated)}</div>
       ${sampleNotice(events)}
     </div>
-    ${events.length ? leadersSection(events) + secs.map((s) => s.html).join("") + evidenceSection(events) + eventsSection(events)
+    ${events.length ? leadersSection(events) + finance + secs.map((s) => s.html).join("") + evidenceSection(events) + eventsSection(events)
       : '<div class="card empty">No results published yet.</div>'}`;
-  renderSide(events.length ? [{ id: "leaders", label: "Leaders", icon: "trophy" }, ...secs,
+  renderSide(events.length ? [{ id: "leaders", label: "Leaders", icon: "trophy" }, ...(finance ? [{ id: "finance", label: "Finance", icon: "trend" }] : []), ...secs,
     { id: "evidence", label: "Evidence", icon: "shield" }, { id: "events", label: "Events", icon: "calendar" }] : []);
   wireAll(events);
   if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
@@ -557,3 +564,6 @@ initTheme();
 const page = document.body.dataset.page;
 if (page === "home") renderHome().catch(fail);
 if (page === "event") renderEvent().catch(fail);
+if (page === "arena") renderArena().catch(fail);
+if (page === "knowledge") renderKnowledge().catch(fail);
+if (page === "models") renderModels().catch(fail);
