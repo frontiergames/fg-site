@@ -186,20 +186,6 @@ table.stats { width: 100%; border-collapse: collapse; font-size: 14px; }
 .stats td:nth-child(2) { font-weight: 500; }
 .stats tbody tr:hover { background: var(--panel-2); }
 
-/* Head-to-head matrix */
-.h2h { padding: 14px 16px 16px; overflow-x: auto; }
-.h2h table { border-collapse: separate; border-spacing: 3px; margin: 0 auto; }
-.h2h th { font-size: 12px; font-weight: 500; color: var(--text-2); padding: 4px 8px; white-space: nowrap; }
-.h2h thead th { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: 112px; vertical-align: bottom; padding: 0 0 6px; }
-.h2h tbody th { text-align: right; }
-.h2h .short { display: none; }
-.h2h td { width: 62px; height: 44px; text-align: center; border-radius: 6px; font-size: 13.5px; font-weight: 500; font-variant-numeric: tabular-nums; cursor: default; transition: outline-color .1s; outline: 2px solid transparent; outline-offset: 1px; }
-.h2h td.self { background: repeating-linear-gradient(135deg, var(--panel-2) 0 5px, var(--line) 5px 6px); }
-.h2h td:not(.self):hover, .h2h td.x { outline-color: var(--text); }
-.h2h tr.hl th, .h2h th.hl { color: var(--text); font-weight: 650; }
-.legend-ramp { display: flex; align-items: center; gap: 8px; }
-.legend-ramp i { display: block; width: 120px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--div-neg), var(--div-mid), var(--div-pos)); }
-
 /* Scatter */
 .scatter { padding: 8px 12px 4px; }
 .scatter svg { display: block; width: 100%; overflow: visible; }
@@ -399,13 +385,9 @@ footer a:hover { color: var(--text); }
   .ivl-row { grid-template-columns: 16px minmax(0, 1fr) 48%; gap: 8px; }
   .ivl-row .nm .medal { display: none; }
   .ivl-row.head .ticks span:nth-child(even) { display: none; }
-  .h2h .full { display: none; }
-  .h2h .short { display: inline; }
-  .h2h thead th { writing-mode: horizontal-tb; transform: none; height: auto; text-align: center; padding: 0 0 4px; }
   .ivl svg text { display: none; }
   .ev-row { grid-template-columns: 1fr 48px; }
   .ev-row .ev-bar { grid-column: 1 / -1; grid-row: 2; }
-  .h2h td { width: 44px; height: 36px; font-size: 12px; }
   .events .opt { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }

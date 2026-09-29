@@ -15,7 +15,6 @@ const ICONS = {
   calendar: '<path d="M3 5h18v16H3zM16 3v4M8 3v4M3 10h18"/>',
   book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
   trophy: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3"/>',
-  rook: '<path d="M6 21h12M7 18h10l-1-7H8l-1 7zM7 4v3h10V4h-2v2h-2V4h-2v2H9V4H7zM8 11h8V7H8"/>',
   grid: '<path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>',
   check: '<path d="M22 11.1V12a10 10 0 1 1-5.9-9.1M22 4 12 14l-3-3"/>',
   pen: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
@@ -33,7 +32,7 @@ const ICONS = {
   github: '<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4M9 18c-4.51 2-5-2-7-2"/>',
 };
 const icon = (name) => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ""}</svg>`;
-const BOARD_ICON = { chess: "rook", solving: "check", authoring: "pen", "solve-or-object": "flag" };
+const BOARD_ICON = { solving: "check", authoring: "pen", "solve-or-object": "flag" };
 
 // ---------- Data ----------
 
@@ -81,7 +80,6 @@ const rankText = (board, row) => (isShared(board, row) ? "=" : "") + row.rank;
 const ciText = (row, d) => (row.ci ? `${fmt(row.ci[0], d)} – ${fmt(row.ci[1], d)}` : "");
 const pill = (ev) => `<span class="pill ${esc(ev.status || "final")}">${esc(ev.status || "final")}</span>`;
 const medal = (row) => (row.medal ? `<span class="medal ${esc(row.medal)}" aria-label="${esc(row.medal)} medal">${{ gold: 1, silver: 2, bronze: 3 }[row.medal]}</span>` : "");
-const fmtHalf = (v) => (Number.isInteger(v) ? String(v) : `${Math.floor(v) || ""}½`);
 
 function avatar(row) {
   const m = row.model;
@@ -248,51 +246,6 @@ function wireBoard(sec, lookup) {
   sec.addEventListener("mouseleave", hideTip);
 }
 
-// ---------- Head-to-head matrix ----------
-
-function h2hSection(ev, board) {
-  const h = board.h2h;
-  const names = h.models;
-  const G = h.games_per_pair;
-  const label = (n) => `<span class="full">${esc(n)}</span><span class="short">${esc(n.trim().split(/\s+/).pop())}</span>`;
-  const cell = (i, j) => {
-    if (i === j) return `<td class="self" aria-label="same model"></td>`;
-    const [w, dr] = h.wdl[i][j];
-    const pts = w + dr / 2;
-    const t = Math.round(Math.min(1, Math.abs(pts / G - 0.5) * 2) * 100);
-    const pole = pts / G >= 0.5 ? "var(--div-pos)" : "var(--div-neg)";
-    const ink = t > 55 ? "#fff" : "var(--text)";
-    return `<td data-i="${i}" data-j="${j}" style="background:color-mix(in oklab, ${pole} ${t}%, var(--div-mid));color:${ink}">${fmtHalf(pts)}</td>`;
-  };
-  return `<section class="sec" id="h2h-${esc(ev.id)}-${esc(board.id)}" data-h2h="${esc(ev.id)}:${esc(board.id)}">
-    <div class="sec-h"><div><h2>${icon("grid")}Head-to-head</h2>
-      <p>Points each row model scored against each column model, out of ${G} games (win 1, draw ½). Hover a cell for the record.</p></div></div>
-    <div class="card"><div class="h2h"><table>
-      <thead><tr><th></th>${names.map((n, j) => `<th data-j="${j}" title="${esc(n)}">${label(n)}</th>`).join("")}</tr></thead>
-      <tbody>${names.map((n, i) => `<tr data-i="${i}"><th title="${esc(n)}">${label(n)}</th>${names.map((_, j) => cell(i, j)).join("")}</tr>`).join("")}</tbody>
-    </table></div>
-    <div class="chart-foot"><span class="legend-ramp">Row loses <i></i> Row wins</span><span>Hatched: a model does not play itself</span></div></div>
-  </section>`;
-}
-
-function wireH2H(sec, lookup) {
-  const { board } = lookup(sec.dataset.h2h);
-  const h = board.h2h;
-  const clear = () => sec.querySelectorAll(".hl").forEach((el) => el.classList.remove("hl"));
-  sec.addEventListener("mousemove", (e) => {
-    const td = e.target.closest("td[data-i]");
-    clear();
-    if (!td) return hideTip();
-    const i = +td.dataset.i, j = +td.dataset.j;
-    const [w, dr, l] = h.wdl[i][j];
-    sec.querySelector(`tr[data-i="${i}"]`).classList.add("hl");
-    sec.querySelector(`th[data-j="${j}"]`).classList.add("hl");
-    showTip(e, tipHead(h.models[i]) + `<div class="r"><span>vs ${esc(h.models[j])}</span></div>` +
-      tipRow("Score", `${fmtHalf(w + dr / 2)} – ${fmtHalf(l + dr / 2)}`) + tipRow("Won / drawn / lost", `${w} / ${dr} / ${l}`));
-  });
-  sec.addEventListener("mouseleave", () => { clear(); hideTip(); });
-}
-
 // ---------- Scatter: two boards of one event against each other ----------
 
 function scatterSection(ev) {
@@ -455,7 +408,6 @@ function sectionsFor(events, { eventLink }) {
   for (const ev of events) {
     for (const b of ev.boards) {
       out.push({ id: `b-${ev.id}-${b.id}`, label: b.title, icon: BOARD_ICON[b.id] || "trophy", html: boardSection(ev, b, { eventLink }) });
-      if (b.h2h) out.push({ id: `h2h-${ev.id}-${b.id}`, label: "Head-to-head", icon: "grid", html: h2hSection(ev, b) });
     }
     if (ev.boards.length >= 2) out.push({ id: `x-${ev.id}`, label: `${ev.boards[0].title} vs ${ev.boards[1].title}`, icon: "scatter", html: scatterSection(ev) });
   }
@@ -479,7 +431,6 @@ function wireAll(events) {
   const map = new Map(events.flatMap((ev) => ev.boards.map((b) => [`${ev.id}:${b.id}`, { ev, board: b }])));
   const lookup = (k) => map.get(k);
   document.querySelectorAll("[data-board]").forEach((s) => wireBoard(s, lookup));
-  document.querySelectorAll("[data-h2h]").forEach((s) => wireH2H(s, lookup));
   document.querySelectorAll("[data-scatter]").forEach((s) => wireScatter(s, events.find((e) => e.id === s.dataset.scatter)));
   const evs = $("#evidence");
   if (evs) wireEvidence(evs, events);
@@ -493,7 +444,7 @@ async function renderHome() {
   $("#main").innerHTML = `
     <div class="page-head">
       <h1>AI Model Rankings</h1>
-      <p>Frontier models set problems for each other, solve them, catch each other's flaws, play games and trade in a market arena. Every rank comes with its uncertainty and the evidence behind it. <a href="method.html">How scoring works</a></p>
+      <p>Frontier models set problems for each other, solve them, catch each other's flaws and trade in a market arena. Every rank comes with its uncertainty and the evidence behind it. <a href="method.html">How scoring works</a></p>
       <div class="meta">Results through ${fmtDate(index.updated)}</div>
       ${sampleNotice(events)}
     </div>

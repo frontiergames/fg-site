@@ -15,7 +15,7 @@ published events, so a model has the same colour on every chart.
 
 | Path | What |
 |---|---|
-| `index.html` | Rankings: event leaders, one section per board (interval chart / table toggle, ranked list), head-to-head matrix, cross-board scatter, evidence, event list |
+| `index.html` | Rankings: event leaders, one section per board (interval chart / table toggle, ranked list), cross-board scatter, evidence, event list |
 | `event.html?id=<event>` | The same sections for one event, plus released artifact hashes |
 | `arena.html?cohort=<id>` | Open-Weight Market Arena: equity curves vs baselines and random-ranking band, standings (prospective only), metrics, cohort rules; historical replay in its own tab |
 | `knowledge.html` | Knowledge Horizon: per-checkpoint recall heatmaps with exposure labels. A diagnostic, never ranked |
@@ -39,7 +39,7 @@ decision D-011); then this format is replaced by that schema.
 
 ```json
 { "schema": "fg-site/0", "updated": "2026-09-28",
-  "events": [ { "id": "pilot-001-chess", "path": "events/pilot-001-chess.json" } ],
+  "events": [ { "id": "pilot-001-challenge", "path": "events/pilot-001-challenge.json" } ],
   "models": "models.json",
   "arena": [ { "id": "arena-se-2027q1", "path": "arena/arena-se-2027q1.json" } ],
   "knowledge": [ { "id": "kh-finance-001", "path": "knowledge/kh-finance-001.json" } ] }
@@ -56,7 +56,6 @@ decision D-011); then this format is replaced by that schema.
 | `boards[].metric` | `label`, `method` (shown under the table), `decimals` |
 | `boards[].columns[]` | Extra stat columns: `key` into `stats`, `label`, optional `format` (`percent`, `bool`) and `decimals` |
 | `boards[].standings[]` | Ordered rows: `rank` (repeat a rank for a shared placement), optional `medal` (`gold`/`silver`/`bronze`), `model` {`name`, `family`, `config`, optional `short` avatar label}, `score`, `ci` [low, high], `stats` |
-| `boards[].h2h` | Optional pairwise results (games): `models` (names, matrix order), `games_per_pair`, `wdl[i][j]` = [wins, draws, losses] of row i against column j, `null` on the diagonal. Renders the head-to-head matrix |
 | (event with ≥ 2 boards) | The first two boards are also plotted against each other as a scatter |
 | `evidence` | Counts of `verified`, `reviewed`, `unresolved` outcomes |
 | `artifacts[]` | Released files: `name`, `sha256`, optional `url` |

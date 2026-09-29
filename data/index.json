@@ -3,10 +3,6 @@
   "updated": "2026-09-28",
   "events": [
     {
-      "id": "sample-chess-000",
-      "path": "events/sample-chess-000.json"
-    },
-    {
       "id": "sample-challenge-000",
       "path": "events/sample-challenge-000.json"
     },
